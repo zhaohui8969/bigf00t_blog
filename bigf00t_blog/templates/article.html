@@ -85,7 +85,7 @@
                 {% endif %}
                 {% if obj.category %}
                 <h4>分类</h4>
-                <a class="category-link" href="/categories.html#{{ category }}-ref">{{ obj.category }}</a>
+                <a class="category-link" href='{% url "posts:list" %}?q=,{{ obj.category }}'>{{ obj.category }}</a>
                 {% endif %}
                 {% endif %}
             </div>
