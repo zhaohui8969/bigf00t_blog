@@ -1,0 +1,11 @@
+.idea
+media_cdn
+static_cdn
+bigf00t_blog/db.sqlite3
+bigf00t_blog/bigf00t_blog/secret_key.py
+bigf00t_blog/blog/blog_conf.py
+bigf00t_blog/blog/migrations/
+bigf00t_blog/bigf00t_blog/*.pyc
+bigf00t_blog/blog/*.pyc
+bigf00t_blog/blog/templatetags/*.pyc
+bigf00t_blog/tmp
