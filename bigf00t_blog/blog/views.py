@@ -77,10 +77,10 @@ def posts_detail(request, slug):
         'common_conf': common_conf,
         'obj': obj,
     }
-    qs = PostModel.objects.filter(id__lt=obj.id, canlist=True)
+    qs = PostModel.objects.filter(publishtime__lt=obj.publishtime, canlist=True)
     if qs.exists():
         content['next_article'] = qs.first()
-    qs = PostModel.objects.filter(id__gt=obj.id, canlist=True)
+    qs = PostModel.objects.filter(publishtime__gt=obj.publishtime, canlist=True)
     if qs.exists():
         content['previous_article'] = qs.last()
     return render(request, 'article.html', content)
