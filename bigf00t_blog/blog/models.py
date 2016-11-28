@@ -34,6 +34,7 @@ class PostModel(models.Model):
     slug = models.CharField(max_length=2000, unique=True, blank=True)
     content = models.TextField(default=None)
     canlist = models.BooleanField(default=True)
+    can_duoshuo = models.BooleanField(default=True)
     draft = models.BooleanField(default=False)
     createtime = models.DateTimeField(auto_now=False, auto_now_add=True)
     updatetime = models.DateTimeField(auto_now=True, auto_now_add=False)
