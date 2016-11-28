@@ -1,0 +1,39 @@
+{% extends 'posts/posts_base.html' %}
+{% block head_title %}
+List | {{ block.super }}
+{% endblock head_title %}
+{% load testmarkdown %}
+
+{% block contain %}
+<h1>Post List</h1>
+<form action="" method="get">
+    <input type="text" name="q" placeholder="Post search" {% if query_var %}value='{{ query_var }}' {% endif %}/>
+    <input type="submit" value="Search">
+</form>
+{% for obj in qs_paga %}
+<a href='{% url "posts:detail" slug=obj.slug %}'>
+    {{ obj.title }}</a><br>
+{{ obj.publishtime|timesince }} ago <br>
+{% if obj.image %}
+<img src='{{ obj.image.url }}' class="img-responsive">
+{% endif %}
+{{ obj.content|truncatechars:10|markme:obj|linebreaks }}<br>
+<hr>
+
+{% endfor %}
+<div class="pagination">
+    <span class="step-links">
+        {% if qs_paga.has_previous %}
+            <a href="?{{ page_request_var }}={{ qs_paga.previous_page_number }}{% if query_var %}&q={{ query_var }}{% endif %}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ qs_paga.number }} of {{ qs_paga.paginator.num_pages }}.
+        </span>
+
+        {% if qs_paga.has_next %}
+            <a href="?{{ page_request_var }}={{ qs_paga.next_page_number }}{% if query_var %}&q={{ query_var }}{% endif %}">next</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock contain %}

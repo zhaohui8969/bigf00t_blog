@@ -1,0 +1,59 @@
+{% extends 'posts/posts_base.html' %}
+{% block head_title %}
+Form | {{ block.super }}
+{% endblock head_title %}
+
+{% block contain %}
+<h1>Post form</h1>
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ image_form_set.management_form }}
+    <div class="table">
+        <table>
+            {{ form.as_table }}
+        </table>
+    </div>
+
+    {% for form in image_form_set.forms %}
+    <div class="table">
+        <table class="no_error">
+            {{ form.as_table }}
+        </table>
+    </div>
+    {% endfor %}
+    <input type="button" value="Add More" id="add_more" class="btn btn-default">
+    <script>
+    $('#add_more').click(function() {
+        cloneMore('div.table:last', 'form')});
+    </script>
+    <input type="submit" value='{{ sub_btn_var }}' class="btn btn-default">
+</form>
+
+FORM:{{ request.POST }}<br>
+DEBUG:{{ debug }}
+
+{% endblock contain %}
+
+{% block head_script %}
+<script language="JavaScript">
+    function cloneMore(selector, type) {
+    var newElement = $(selector).clone(true);
+    var total = $('#id_' + type + '-TOTAL_FORMS').val();
+
+    console.log(total);
+    newElement.find(':input').each(function() {
+        var name = $(this).attr('name').replace('-' + (total-1) + '-','-' + total + '-');
+        var id = 'id_' + name;
+        $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+    });
+    newElement.find('label').each(function() {
+        var newFor = $(this).attr('for').replace('-' + (total-1) + '-','-' + total + '-');
+        $(this).attr('for', newFor);
+    });
+    total++;
+    $('#id_' + type + '-TOTAL_FORMS').val(total);
+    $(selector).after(newElement);
+    console.log(total);
+}
+</script>
+{% endblock head_script %}

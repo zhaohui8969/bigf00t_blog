@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ block.super }}
+{% endblock title %}
+
+{% block content %}
+<div class="row-fluid">
+    {% if LANDING_PAGE_ABOUT and LANDING_PAGE_ABOUT.title %}
+    <header class="page_header span12">
+        <h1><a href="{{ SITEURL }}">{{ LANDING_PAGE_ABOUT.title }}</a></h1>
+    </header>
+    {% endif %}
+
+    <div class="row-fluid">
+        {% if LANDING_PAGE_ABOUT and LANDING_PAGE_ABOUT.details %}
+        <div class="span8">
+            <header>
+                <h1 id="about-me">About me</h1>
+            </header>
+            <div class="article-content">
+                {{ LANDING_PAGE_ABOUT.details }}
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+
+    {% if qs_paga %}
+    <div class="row-fluid">
+        <div class="span12">
+            <header>
+                <h1 id="recent-posts">文章</h1>
+            </header>
+            {% for obj in qs_paga %}
+            <ul class="list-all-articles">
+                <li>
+                    <a href='{% url "posts:detail" slug=obj.slug %}'>{{ obj.title }} {%if obj.subtitle %}
+                        <small> {{ obj.subtitle }}</small>
+                        {% endif %} </a>
+                    <time pubdate="pubdate" datetime="{{ obj.publishtime }}">{{ obj.publishtime|timesince }} 之前</time>
+                </li>
+            </ul>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if qs_paga.has_previous %}
+                <a href="?{{ page_request_var }}={{ qs_paga.previous_page_number }}{% if query_var %}&q={{ query_var }}{% endif %}">上一页</a>
+            {% endif %}
+
+            <span class="current">
+                 {{ qs_paga.number }} / {{ qs_paga.paginator.num_pages }}.
+            </span>
+
+            {% if qs_paga.has_next %}
+                <a href="?{{ page_request_var }}={{ qs_paga.next_page_number }}{% if query_var %}&q={{ query_var }}{% endif %}">下一页</a>
+            {% endif %}
+        </span>
+    </div>
+    {% endif %}
+</div>
+{% endblock content %}

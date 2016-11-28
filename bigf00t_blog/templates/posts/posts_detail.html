@@ -1,0 +1,14 @@
+{% extends 'posts/posts_base.html' %}
+{% block head_title %}
+Detail | {{ block.super }}
+{% endblock head_title %}
+{% load testmarkdown %}
+
+{% block contain %}
+{% if obj.image %}
+<img src='{{ obj.image.url }}' class="img-responsive">
+{% endif %}
+<h1>{{ obj.title }}</h1>
+{{ obj.publishtime|timesince }} ago <br>
+{{ obj.content|markme:obj }}<br>
+{% endblock contain %}

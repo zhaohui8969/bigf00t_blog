@@ -1,0 +1,21 @@
+{% load testmarkdown %}
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block head_title %}Dj19_rewrite{% endblock head_title %}</title>
+    <script src='{% static "/jquery.min.js" %}'></script>
+    <link href='{% static "/bt/bootstrap-theme.min.css" %}' rel="stylesheet">
+    <link href='{% static "/bt/bootstrap.min.css" %}' rel="stylesheet">
+    <script src='{% static "/bt/bootstrap.min.js" %}'></script>
+    {% block head_script %}{% endblock head_script %}
+</head>
+<body>
+{% include 'posts/flash_message.html' %}
+<div class="container">
+    {% block contain %}
+
+    {% endblock contain %}
+</div>
+</body>
+</html>

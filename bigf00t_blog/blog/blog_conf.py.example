@@ -1,0 +1,6 @@
+common_conf = {
+    'site_name': 'Winter is coming!',
+    'about_page_slug': 'guan-yu-wo-de',
+    'you_lian_page_slug': 'you-lian',
+    'not-list-category-name': 'not-list',
+}
