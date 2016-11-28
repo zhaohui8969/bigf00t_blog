@@ -7,7 +7,7 @@ Search · {{ block.super }}
 {% block head_links %}
 {{ block.super }}
 <link href="http://fonts.googleapis.com/css?family=Lato:300,400|Open+Sans:300,400" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href='{% static "/theme/tipuesearch/tipuesearch.css" %}'>
+<link rel="stylesheet" type="text/css" href='{% static "theme/tipuesearch/tipuesearch.css" %}'>
 {% endblock head_links %}
 
 {% block head_description %}
@@ -16,8 +16,8 @@ Search results for {{ SITENAME|striptags }} blog.
 
 {% block script %}
 <script src='{% static "jquery.min.js" %}'></script>
-<script type="text/javascript" src='{% static "/theme/tipuesearch/tipuesearch_set.js" %}'></script>
-<script type="text/javascript" src='{% static "/theme/tipuesearch/tipuesearch.min.js" %}'></script>
+<script type="text/javascript" src='{% static "theme/tipuesearch/tipuesearch_set.js" %}'></script>
+<script type="text/javascript" src='{% static "theme/tipuesearch/tipuesearch.min.js" %}'></script>
 <script>
 $(document).ready(function() {
      $('#tipue_search_input').tipuesearch({
