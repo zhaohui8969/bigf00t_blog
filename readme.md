@@ -1,5 +1,8 @@
 # 自己的Django博客的一个备份
 
+
+我的博客地址 <http://blog.bigf00t.net>
+
 ## 配置文件
 
 ```
