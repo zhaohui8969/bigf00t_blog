@@ -7,7 +7,7 @@ class PostModelAdmin(admin.ModelAdmin):
     list_display = ['title', 'category', 'updatetime', 'createtime', 'publishtime']
     list_display_links = ['title', 'updatetime', 'createtime', 'publishtime']
     list_filter = ['updatetime', 'category', 'createtime', 'publishtime']
-    search_fields = ['title', 'category', 'content']
+    search_fields = ['title', 'content']
 
 
 class ImageModelAdmin(admin.ModelAdmin):
