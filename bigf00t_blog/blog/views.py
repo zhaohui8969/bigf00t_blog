@@ -1,8 +1,11 @@
 # coding:utf-8
+import os
+
+from django.conf import settings
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
-from django.forms import formset_factory
+from django.forms import modelformset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, Http404, get_object_or_404, redirect
 
@@ -49,9 +52,10 @@ def posts_list(request):
 def posts_create(request):
     if not user_auth.check_login(request):
         raise Http404
-    Image_Form_Set = formset_factory(ImageModelsForm, extra=1)
+    Image_Form_Set = modelformset_factory(ImageModle, form=ImageModelsForm)
     form = PostModelsForm(request.POST or None, request.FILES or None)
-    image_form_set = Image_Form_Set(request.POST or None, request.FILES or None)
+    image_form_set = Image_Form_Set(request.POST or None, request.FILES or None,
+                                    queryset=ImageModle.objects.none())
     if form.is_valid() and image_form_set.is_valid():
         instance = form.save()
 
@@ -91,12 +95,32 @@ def posts_edit(request, slug):
         raise Http404
     instance = get_object_or_404(PostModel, slug=slug)
     form = PostModelsForm(request.POST or None, request.FILES or None, instance=instance)
-    if form.is_valid():
+    Image_Form_Set = modelformset_factory(ImageModle, form=ImageModelsForm, can_delete=True)
+    image_form_set = Image_Form_Set(request.POST or None, request.FILES or None,
+                                    queryset=ImageModle.objects.filter(post=instance))
+    if form.is_valid() and image_form_set.is_valid():
         instance = form.save()
+
+        for form in image_form_set.cleaned_data:
+            if form.get('id'):
+                if form['DELETE']:
+                    form['id'].delete()
+                else:
+                    image_instance = form['id']
+                    if not image_instance.image == form['image']:
+                        os.remove(os.path.join(settings.MEDIA_ROOT, str(image_instance.image)))
+                    image_instance.image = form['image']
+                    image_instance.save()
+            elif form.get('image'):
+                image = form['image']
+                photo = ImageModle(post=instance, image=image)
+                photo.save()
+
         messages.success(request, 'edit success')
         return HttpResponseRedirect(instance.get_absolute_url())
     content = {
         'form': form,
+        'image_form_set': image_form_set,
         'sub_btn_var': 'Save',
     }
     return render(request, 'posts/posts_form.html', content)

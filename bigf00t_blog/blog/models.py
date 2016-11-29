@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 
+import os
 import shutil
 from os import path
 
@@ -70,14 +71,20 @@ def create_slug(instance, new_slug=None):
     return slug
 
 
-def pre_save_signal_PostModel_receiver(sender, instance, *args, **kwargs):
+def pre_save_signal_PostModel_receiver(instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = create_slug(instance)
 
 
-def pre_delete_signal_PostModel_receiver(sender, instance, *args, **kwargs):
+def pre_delete_signal_PostModel_receiver(instance, *args, **kwargs):
     shutil.rmtree(path.join(settings.MEDIA_ROOT, instance.slug), ignore_errors=True)
 
 
+def pre_delete_signal_ImageModel_receiver(instance, *args, **kwargs):
+    os.remove(os.path.join(settings.MEDIA_ROOT, str(instance.image)))
+
+
 pre_delete.connect(pre_delete_signal_PostModel_receiver, sender=PostModel)
+pre_delete.connect(pre_delete_signal_ImageModel_receiver, sender=ImageModle)
+
 pre_save.connect(pre_save_signal_PostModel_receiver, sender=PostModel)
