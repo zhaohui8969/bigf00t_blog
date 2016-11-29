@@ -1,0 +1,4 @@
+Django==1.10.3
+Markdown==2.6.7
+Unidecode==0.4.19
+uWSGI==2.0.14
