@@ -3,17 +3,17 @@
 {% load testmarkdown %}
 
 {% block title %}
-{{ article.title }} {%if article.subtitle %} - {{ article.subtitle }} {% endif %} · {{ block.super }}
+{{ obj.title }} {%if obj.subtitle %} - {{ obj.subtitle }} {% endif %} · {{ block.super }}
 {% endblock title %}
 
 {% block head_description %}
-{% if article.summary %}
-{{ article.summary|striptags }}
+{% if obj.summary %}
+{{ obj.summary|striptags }}
 {% endif %}
 {% endblock head_description %}
 
 {% block meta_tags_in_head %}
-{% if article.tags or article.category or article.keywords %}
+{% if obj.tags or obj.category or obj.keywords %}
 
 {% endif %}
 {% endblock meta_tags_in_head %}
